@@ -32,11 +32,11 @@ else
 fi
 
 if [ -z ${service_install_dir} ]; then
-    service_install_dir=${HOME}/pw/code-server-4.7.0-linux-amd64
+    service_install_dir=${HOME}/pw/code-server-4.92.2-linux-amd64
 fi
 
 if [ -z ${service_tgz_path} ]; then
-    service_tgz_path=/swift-pw-bin/apps/code-server-4.7.0-linux-amd64.tar.gz
+    service_tgz_path=/pw/code-server-4.92.2-linux-amd64.tar.gz
 fi
 
 install_paths="${HOME}/pw/*/bin /opt/*/bin /shared/*/bin"
