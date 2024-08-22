@@ -106,7 +106,7 @@
           name='install_dir' 
           label='Default OpenVSCode installation directory' 
           type='hidden' 
-          value='__WORKDIR__/pw/bootstrap/code-server-92.2'  
+          value='__WORKDIR__/pw/bootstrap/code-server-4.92.2-linux-amd64'  
         ></param>
         <param 
           name='tgz_path' 
