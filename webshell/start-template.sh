@@ -39,7 +39,7 @@ chmod +x ./pw/noVNC-1.3.0/ttyd.x86_64
 
 rm -rf ${PWD}/service.pid
 
-./pw/noVNC-1.3.0/ttyd.x86_64 -p $servicePort bash &
+./pw/noVNC-1.3.0/ttyd.x86_64 -p $service_port bash &
 echo $! >> ${PWD}/service.pid
 
 # Notify platform that service is running

@@ -56,7 +56,7 @@ else
     done
 fi
 
-if [ -z "${servicePort}" ]; then
+if [ -z "${service_port}" ]; then
     displayErrorMessage "ERROR: No service port found in the range \${minPort}-\${maxPort} -- exiting session"
 fi
 
@@ -208,8 +208,8 @@ fi
 
 cd ${novnc_dir}
 
-echo "Running ./utils/novnc_proxy --vnc localhost:${displayPort} --listen localhost:${servicePort}"
-./utils/novnc_proxy --vnc localhost:${displayPort} --listen localhost:${servicePort} </dev/null &>/dev/null &
+echo "Running ./utils/novnc_proxy --vnc localhost:${displayPort} --listen localhost:${service_port}"
+./utils/novnc_proxy --vnc localhost:${displayPort} --listen localhost:${service_port} </dev/null &>/dev/null &
 echo $! >> ${resource_jobdir}/service.pid
 pid=$(ps -x | grep vnc | grep ${displayPort} | awk '{print $1}')
 echo ${pid} >> ${resource_jobdir}/service.pid

@@ -10,7 +10,7 @@
         value='connect-to-existing'  
       ></param>
       <param 
-        name='servicePort' 
+        name='port' 
         label='Service Port' 
         type='text' 
         value='3000'
