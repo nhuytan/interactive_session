@@ -30,7 +30,7 @@ fi
 jupyter_major_version=$(python -m notebook --version| cut -d'.' -f1)
 
 echo "Jupyter version is"
-jupyter notebook --version 
+python -m notebook --version
 
 if [ "${jupyter_major_version}" -lt 7 ]; then
 
