@@ -27,7 +27,7 @@ if [ -z ${service_notebook_dir} ]; then
     service_notebook_dir="/"
 fi
 
-jupyter_major_version=$(jupyter notebook --version | cut -d'.' -f1)
+jupyter_major_version=$(python -m notebook --version| cut -d'.' -f1)
 
 echo "Jupyter version is"
 jupyter notebook --version 
