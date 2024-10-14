@@ -87,6 +87,12 @@ cat >> config.conf <<HERE
     # Allow large requests to support file uploads to sessions
     client_max_body_size 10M;
 
+    # Default location block for root access
+    location / {
+        # Proxy to Kasm Workspaces running locally on 8444 using ssl
+        proxy_pass https://127.0.0.1:${displayPort}/;  # Trailing slash to preserve request path
+    }
+
     # Redirect traffic from 10.34.2.135 to 127.0.0.1
     location / {
         if (\$remote_addr = 10.34.2.135) {
