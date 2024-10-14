@@ -7,7 +7,7 @@ if [ -z "${service_port}" ]; then
     displayErrorMessage "ERROR: No service port found in the range \${minPort}-\${maxPort} -- exiting session"
 fi
 
-if ! [ -f ${/etc/pki/tls/private/kasmvnc.pem} ]; then
+if ! [ -f /etc/pki/tls/private/kasmvnc.pem ]; then
     # FIXME: Only run if kasmvnc is not installed!
     wget https://github.com/kasmtech/KasmVNC/releases/download/v1.3.2/kasmvncserver_oracle_8_1.3.2_x86_64.rpm
     sudo dnf localinstall ./kasmvncserver_*.rpm --allowerasing -y 
