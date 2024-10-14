@@ -10,7 +10,7 @@ echo "Editing the service.json file"
 source ${service_name}/url.sh
 
 # FIXME: Move this to <service-name>/url.sh
-if [[ "${service_name}" == "nicedcv" ]] || [[ "${service_name}" == "hammerspace" ]]; then
+if [[ "${service_name}" == "nicedcv" ]] || [[ "${service_name}" == "hammerspace" ]] || [[ "${service_name}" == "kasmvnc" ]]; then
     URL="\"/sme/${openPort}/${URLEND}"
     sed -i "s|.*URL.*|    \"URL\": \"/sme\",|" service.json
 else
