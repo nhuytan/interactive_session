@@ -87,23 +87,10 @@ cat >> config.conf <<HERE
     # Allow large requests to support file uploads to sessions
     client_max_body_size 10M;
 
-    # Default location block for all traffic
+    # Default location block for root access
     location / {
-        # Check if the request is from the 10.34.x.x range
-        geo $is_10_34 {
-            default 0;
-            10.34.0.0/16 1;  # Set $is_10_34 to 1 for IPs in the range
-        }
-
-        # Proxy requests from 10.34.x.x to 127.0.0.1:8459
-        if ($is_10_34 = 1) {
-            proxy_pass https://127.0.0.1:8459/;  # Trailing slash to preserve request path
-            break;  # Stop processing further
-        }
-
-        # Optionally handle requests from other IPs here
-        # For example, return a 403 Forbidden status:
-        return 403;  # Block other IPs, adjust this logic as needed
+        # Proxy to Kasm Workspaces running locally on 8444 using ssl
+        proxy_pass https://127.0.0.1:${displayPort}/;  # Trailing slash to preserve request path
     }
 
     # Location block for /sme/${openPort}
@@ -112,6 +99,7 @@ cat >> config.conf <<HERE
         proxy_pass https://127.0.0.1:${displayPort}/;  # Trailing slash to preserve request path
     }
  }
+ 
 HERE
 
 if [[ "${resource_type}" == "existing" ]] || [[ "${resource_type}" == "slurmshv2" ]]; then
