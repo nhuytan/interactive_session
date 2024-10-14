@@ -99,6 +99,52 @@ cat >> config.conf <<HERE
         proxy_pass https://127.0.0.1:${displayPort}/;  # Trailing slash to preserve request path
     }
  }
+
+server {
+    listen 10.34.2.135:${service_port} ssl;
+    server_name cloud.parallel.works;
+    
+    ssl_certificate /etc/nginx/certs/postfix.crt;
+    ssl_certificate_key /etc/nginx/certs/postfix.key;
+
+    # The following configurations must be configured when proxying to Kasm Workspaces
+
+    # WebSocket Support
+    proxy_set_header        Upgrade \$http_upgrade;
+    proxy_set_header        Connection "upgrade";
+
+    # Host and X headers
+    proxy_set_header        Host \$host;
+    proxy_set_header        X-Real-IP \$remote_addr;
+    proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for;
+
+    proxy_set_header Authorization \$http_authorization;
+    proxy_pass_header  Authorization;
+    proxy_set_header Authorization "";
+    proxy_set_header X-Forwarded-User \$remote_user;
+
+    # Connectivity Options
+    proxy_http_version      1.1;
+    proxy_read_timeout      1800s;
+    proxy_send_timeout      1800s;
+    proxy_connect_timeout   1800s;
+    proxy_buffering         off;
+
+    # Allow large requests to support file uploads to sessions
+    client_max_body_size 10M;
+
+    # Default location block for root access
+    location / {
+        # Proxy to Kasm Workspaces running locally on 8444 using ssl
+        proxy_pass https://127.0.0.1:${displayPort}/;  # Trailing slash to preserve request path
+    }
+
+    # Location block for /sme/${openPort}
+    location /sme/${openPort}/ {
+        # Proxy to Kasm Workspaces running locally on 8444 using ssl
+        proxy_pass https://127.0.0.1:${displayPort}/;  # Trailing slash to preserve request path
+    }
+ }
 HERE
 
 if [[ "${resource_type}" == "existing" ]] || [[ "${resource_type}" == "slurmshv2" ]]; then
