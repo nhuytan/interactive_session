@@ -110,12 +110,12 @@ if [[ "${resource_type}" == "existing" ]] || [[ "${resource_type}" == "slurmshv2
     touch empty
     singularity run -B $PWD/tmp:/tmp -B $PWD/config.conf:/etc/nginx/conf.d/config.conf -B empty:/etc/nginx/conf.d/default.conf -B $PWD/certs:/etc/nginx/certs ${service_nginx_sif} &
     pid=$!
-    echo "kill ${pid}" >> cancel.sh
+    echo "kill ${pid}" >> ${resource_jobdir}/service-kill-${job_number}-main.sh
 else
     container_name="nginx-${service_port}"
     # Remove container when job is canceled
-    echo "sudo docker stop ${container_name}" >> cancel.sh
-    echo "sudo docker rm ${container_name}" >> cancel.sh
+    echo "sudo docker stop ${container_name}" >> ${resource_jobdir}/service-kill-${job_number}-main.sh
+    echo "sudo docker rm ${container_name}" >> ${resource_jobdir}/service-kill-${job_number}-main.sh
     # Start container
     sudo service docker start
     touch empty
