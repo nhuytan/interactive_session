@@ -4,18 +4,9 @@ source resources/host/inputs.sh
 
 set -x
 
-if [ -z "${openPort}" ]; then
-    export openPort=$(echo ${resource_ports} | sed "s|___| |g" | cut -d ' ' -f1)
-    if [[ "$openPort" == "" ]]; then
-        displayErrorMessage "ERROR - cannot find open port..."
-        exit 1
-    fi
-fi
 
-echo "export openPort=${openPort}" >> resources/host/inputs.sh
 export sshcmd="ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no ${resource_publicIp}"
 echo "export sshcmd=\"${sshcmd}\"" >> resources/host/inputs.sh
-source resources/host/inputs.sh
 
 # Obtain the service_name from any section of the XML
 export service_name=$(cat resources/host/inputs.sh | grep service_name | cut -d'=' -f2 | tr -d '"')
@@ -28,15 +19,9 @@ fi
 
 sed -i "s/__job_number__/${job_number}/g" resources/host/inputs.sh
 
-export USER_CONTAINER_HOST="usercontainer"
-echo "export USER_CONTAINER_HOST=${USER_CONTAINER_HOST}" >> resources/host/inputs.sh
-
 # RUN IN CONTROLLER, SLURM PARTITION OR PBS QUEUE?
 if [[ ${jobschedulertype} == "CONTROLLER" ]]; then
     session_wrapper_dir=controller
-elif [[ ${jobschedulertype} == "LOCAL" ]]; then
-    displayErrorMessage "ERROR: Unsupported option ${jobschedulertype}=LOCAL"
-    exit 1
 else
     session_wrapper_dir=partition
 fi
