@@ -61,7 +61,6 @@ jobs:
         uses: parallelworks/update-session
         with:
           remotePort: "${{ needs.create_session.outputs.remote_port }}"
-          name: "${{ needs.create_session.outputs.session_name }}"
           status: running
           target: ${{ inputs.pwrl_host.resource.id }}
 
