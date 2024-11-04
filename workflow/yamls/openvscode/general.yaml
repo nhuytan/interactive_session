@@ -1,3 +1,7 @@
+sessions:
+  vscode:
+    redirect: true
+    
 jobs:
   main:
     steps:
@@ -20,7 +24,46 @@ jobs:
         cleanup: ./kill.sh
       - name: Clean and Exit
         run: ./utils/steps/clean_and_exit.sh
-        
+  create_session:
+    steps:
+      - name: Set Session Name
+        run: |
+          session_name=$(pwd | rev | cut -d'/' -f1-2 | tr '/' '-' | rev)
+          echo "session_name=${session_name}" | tee -a $OUTPUTS
+      - name: Get Controller Hostname
+        env:
+          sshcmd: ssh -o StrictHostKeyChecking=no ${{ inputs.pwrl_host.resource.ip }}
+        run: |
+          target_hostname=$(${sshcmd} hostname)
+          echo "target_hostname=${target_hostname}"  | tee -a $OUTPUTS
+      - name: Get Remote Port
+        env:
+          sshcmd: ssh -o StrictHostKeyChecking=no ${{ inputs.pwrl_host.resource.ip }}
+        run: |
+          while true; do
+            echo "Waiting for service port file..."
+
+            # Check if the service.port file exists and read its contents
+            remote_port=$(${sshcmd} "if [ -f ~/${PWD/#$HOME/}/service.port ]; then cat ~/${PWD/#$HOME/}/service.port; fi")
+
+            # Exit the loop if remote_port is successfully set (file was found and read)
+            if [ -n "$remote_port" ]; then
+              echo "Service port found: $remote_port"
+              break
+            fi
+
+            # Wait before the next check
+            sleep 5
+          done
+          echo "remote_port=${remote_port}"  | tee -a $OUTPUTS
+      - name: Expose port
+        uses: '@parallelworks/update-session'
+        with:
+          remotePort: "${{ needs.create_session.outputs.remote_port }}"
+          name: "${{ needs.create_session.outputs.session_name }}"
+          status: running
+          target: ${{ inputs.pwrl_host.resource.id }}
+
 'on':
   execute:
     inputs:
