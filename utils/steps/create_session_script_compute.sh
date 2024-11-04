@@ -10,15 +10,6 @@ cp resources/host/batch_header.sh ${session_sh}
 echo >> ${session_sh}
 cat resources/host/inputs.sh >> ${session_sh}
 
-# ADD STREAMING
-if [[ "${advanced_options_stream}" != "false" ]]; then
-    # Don't really know the extension of the --pushpath. Can't controll with PBS (FIXME)
-    stream_args="--host ${USER_CONTAINER_HOST} --pushpath ${pw_job_dir}/stream.out --pushfile logs.out --delay 30 --masterIp ${resource_privateIp}"
-    stream_cmd="bash stream-${job_number}.sh ${stream_args} &"
-    echo; echo "Streaming command:"; echo "${stream_cmd}"; echo
-    echo ${stream_cmd} >> ${session_sh}
-fi
-
 cat >> ${session_sh} <<HERE
 # In case the job directory is not shared between the controller and compute nodes
 mkdir -p ${resource_jobdir}
@@ -26,10 +17,6 @@ cd ${resource_jobdir}
 
 echo \$SLURM_JOB_ID > job.id
 hostname > target.hostname
-
-echo "Running in host \$(hostname)"
-sshusercontainer="ssh ${resource_ssh_usercontainer_options} -f ${USER_CONTAINER_HOST}"
-ssh ${resource_ssh_usercontainer_options} -f ${USER_CONTAINER_HOST} hostname
 
 displayErrorMessage() {
     echo \$(date): \$1

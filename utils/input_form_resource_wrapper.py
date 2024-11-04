@@ -237,7 +237,7 @@ def complete_resource_information(inputs_dict):
         if inputs_dict['jobschedulertype'] == 'SLURM':
             if '_sch__dd_partition_e_' in inputs_dict:
                 partition = inputs_dict['_sch__dd_partition_e_']
-                command_to_obtain_cpus_per_node=f"{SSH_CMD} {public_ip} sinfo -Nel | awk '/{partition}/ " + "{print $5}' | tail -n1"
+                command_to_obtain_cpus_per_node=f"{SSH_CMD} {inputs_dict['resource']['publicIp']} sinfo -Nel | awk '/{partition}/ " + "{print $5}' | tail -n1"
                 cpus_per_node = get_command_output(command_to_obtain_cpus_per_node)
                 if cpus_per_node:
                     cpus_per_node = int(cpus_per_node)
@@ -423,6 +423,11 @@ def check_slurm(public_ip):
         raise(Exception(msg))
 
 
+def create_remote_job_directory(ip, jobdir):
+    mkdir_cmd =f"{SSH_CMD} {ip} mkdir -p {jobdir}"
+    get_command_output(mkdir_cmd)
+
+
 def prepare_resource(inputs_dict, resource_label):
 
     resource_inputs = extract_resource_inputs(inputs_dict, resource_label)
@@ -435,6 +440,8 @@ def prepare_resource(inputs_dict, resource_label):
 
     logger.info(json.dumps(resource_inputs, indent = 4))
     create_resource_directory(resource_inputs, resource_label)
+
+    create_remote_job_directory(resource_inputs['resource']['publicIp'], resource_inputs['resource']['jobdir'])
     
 
 def clean_inputs(inputs_dict):

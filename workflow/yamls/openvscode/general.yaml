@@ -16,18 +16,23 @@ jobs:
         run: ./utils/steps/process_inputs_sh.sh 
       - name: Controller Preprocessing
         run: ./utils/steps/controller_preprocessing.sh
-      - name: Prepare Service JSON
-        run: ./utils/steps/prepare_service_json.sh 
       - name: Initialize Cancel Script
-        run: ./utils/steps/initialize_cancel_script.sh
+        run: ./utils/steps/initialize_cancel_script_v3.sh
+
       - name: Create Controller Session Script
         if: ${{ 'CONTROLLER' === inputs.pwrl_host.jobschedulertype }}
         run: ./utils/steps/create_session_script_controller.sh
+      - name: Launch and Monitor Controller Job
+        if: ${{ 'CONTROLLER' === inputs.pwrl_host.jobschedulertype }}
+        run: ./utils/steps/launch_and_monitor_controller_job.sh
+        cleanup: ./kill.sh
+
       - name: Create Compute Session Script
-        if: ${{ 'SLURM' !== inputs.pwrl_host.jobschedulertype }}
+        if: ${{ 'CONTROLLER' !== inputs.pwrl_host.jobschedulertype }}
         run: ./utils/steps/create_session_script_compute.sh
-      - name: Launch Job and Wait
-        run: ./utils/steps/launch_job_and_wait.sh
+      - name:  Launch and Monitor Compute Job
+        if: ${{ 'CONTROLLER' !== inputs.pwrl_host.jobschedulertype }}
+        run: ./utils/steps/utils/steps/launch_and_monitor_compute_job.sh
         cleanup: ./kill.sh
       - name: Clean and Exit
         run: ./utils/steps/clean_and_exit.sh
