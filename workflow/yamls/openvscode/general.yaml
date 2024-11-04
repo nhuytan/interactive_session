@@ -1,7 +1,7 @@
 sessions:
   vscode:
     redirect: true
-    
+
 jobs:
   main:
     steps:
@@ -18,7 +18,7 @@ jobs:
       - name: Initialize Cancel Script
         run: ./utils/steps/initialize_cancel_script.sh
       - name: Create Session Script
-        run: ./utils/steps/create_session_script.sh
+        run: ./utils/steps/create_session_script_controller.sh
       - name: Launch Job and Wait
         run: ./utils/steps/launch_job_and_wait.sh
         cleanup: ./kill.sh
