@@ -66,8 +66,8 @@ HERE
 
 
 # Add application-specific code
-if [ -f "${service_name}/start-template.sh" ]; then
-    cat "${service_name}/start-template.sh" >> ${session_sh}
+if [ -f "${service_name}/start-template-v3.sh" ]; then
+    cat "${service_name}/start-template-v3.sh" >> ${session_sh}
 fi
 
 # Note that job is no longer running
