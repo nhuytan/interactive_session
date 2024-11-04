@@ -1,6 +1,7 @@
+permissions:
+  - '*'
 sessions:
-  vscode:
-    redirect: true
+  expose: {}
 
 jobs:
   main:
