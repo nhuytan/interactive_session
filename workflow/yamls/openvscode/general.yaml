@@ -57,7 +57,7 @@ jobs:
           done
           echo "remote_port=${remote_port}"  | tee -a $OUTPUTS
       - name: Expose port
-        uses: '@parallelworks/update-session'
+        uses: parallelworks/update-session
         with:
           remotePort: "${{ needs.create_session.outputs.remote_port }}"
           name: "${{ needs.create_session.outputs.session_name }}"
