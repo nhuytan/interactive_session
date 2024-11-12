@@ -6,7 +6,7 @@
 start_gnome_session_with_retries() {
     k=1
     while true; do
-        echo "$(date +'%Y-%m-%d %H:%M:%S') - Running gnome-session"
+        echo "$(date +'%Y-%m-%d %H:%M:%S') - Running gnome-session on DISPLAY ${DISPLAY}"
         gsettings set org.gnome.desktop.session idle-delay 0
         gnome-session
         sleep $((k*60))
