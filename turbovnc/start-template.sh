@@ -149,6 +149,8 @@ if ! [[ $kernel_version == *microsoft* ]]; then
     # https://turbovnc.org/Documentation/Compatibility30
     if [[ ${service_desktop} == "mate-session" ]]; then
         export TVNC_WM=mate
+    elif [[ ${service_desktop} == "gnome-session" ]]; then
+        export XDG_CURRENT_DESKTOP=GNOME
     fi
 
     if [ -z ${service_vnc_exec} ] || ! [ -f "${service_vnc_exec}" ]; then
