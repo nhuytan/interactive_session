@@ -6,7 +6,7 @@
 start_gnome_session_with_retries() {
     k=1
     while true; do
-        echo "$(date +'%Y-%m-%d %H:%M:%S') - Running gnome-session on DISPLAY ${DISPLAY}"
+        echo "$(date +'%Y-%m-%d %H:%M:%S') - Running gnome-session on DISPLAY $DISPLAY"
         gsettings set org.gnome.desktop.session idle-delay 0
         gnome-session
         sleep $((k*60))
@@ -211,7 +211,8 @@ if ! [[ $kernel_version == *microsoft* ]]; then
 
     # Start desktop here too just in case
     if [[ ${service_desktop} == "gnome-session" ]]; then
-        start_gnome_session_with_retries 
+        echo "Running start_gnome_session_with_retries"
+        start_gnome_session_with_retries &> start_gnome_session_with_retries.out &
         service_desktop_pid=$!
     else
         eval ${service_desktop} &
