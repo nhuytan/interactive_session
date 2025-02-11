@@ -82,6 +82,7 @@ jobs:
           sshcmd: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ inputs.pwrl_host.resource.ip }}
         run: |
           source resources/host/inputs.sh
+          set -x
           while true; do
             echo "Waiting for target hostname..."
 
