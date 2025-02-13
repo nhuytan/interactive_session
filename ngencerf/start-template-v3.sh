@@ -147,15 +147,14 @@ HERE
 echo "Running singularity container ${service_nginx_sif}"
 # We need to mount $PWD/tmp:/tmp because otherwise nginx writes the file /tmp/nginx.pid 
 # and other users cannot use the node. Was not able to change this in the config.conf.
-mkdir -p ./tmp ./nginx_logs
-chmod -R 777 $PWD/nginx_logs
+mkdir -p ./tmp
 # Need to overwrite default configuration!
-touch empty
+touch empty nginx.error.log
 singularity run -B $PWD/tmp:/tmp \
   -B $PWD/config.conf:/etc/nginx/conf.d/config.conf \
   -B $PWD/nginx.conf:/etc/nginx/nginx.conf  \
   -B empty:/etc/nginx/conf.d/default.conf \
-  -B $PWD/nginx_logs:/var/log/nginx/  \
+  -B $PWD/nginx.error.log:/var/log/nginx/error.log  \
   ${service_nginx_sif} >> nginx.logs 2>&1 &
 
 echo "kill $! # nginx" >> cancel.sh
