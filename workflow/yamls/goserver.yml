@@ -1,0 +1,53 @@
+sessions:
+  session: {}
+jobs:
+  main:
+    steps:
+      - name: copy go file
+        run: |
+          set -x
+          cat << EOF > goserver.go
+          package main
+
+          import (
+              "fmt"
+              "net/http"
+          )
+
+          func hello(w http.ResponseWriter, req *http.Request) {
+
+              fmt.Fprintf(w, "helloalsdkjfalsdkjfal\n")
+          }
+
+          func headers(w http.ResponseWriter, req *http.Request) {
+
+              for name, headers := range req.Header {
+                  for _, h := range headers {
+                      fmt.Fprintf(w, "%v: %v\n", name, h)
+                  }
+              }
+          }
+
+          func main() {
+
+              http.HandleFunc("/", hello)
+              http.HandleFunc("/headers", headers)
+              fmt.Println("running on port 3001")
+              http.ListenAndServe(":3001", nil)
+          }
+          EOF
+      - name: run goserver
+        run: |
+          ssh ${{ inputs.resource.ip }} "go run /tmp/goserver.go" &
+      - name: sleep
+        run: sleep 5000
+      
+'on':
+  execute:
+    inputs:
+      resource:
+        type: compute-clusters
+        label: Service host
+        include-workspace: false
+        default: ${{ app.target }}
+        tooltip: Resource to host the service
