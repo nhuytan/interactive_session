@@ -154,7 +154,7 @@ singularity run -B $PWD/tmp:/tmp \
   -B $PWD/config.conf:/etc/nginx/conf.d/config.conf \
   -B $PWD/nginx.conf:/etc/nginx/nginx.conf  \
   -B empty:/etc/nginx/conf.d/default.conf \
-  -B $PWD/nginx_logs:/var/log \
+  -B $PWD/nginx_logs:/var/log/nginx \
   ${service_nginx_sif} >> nginx.logs 2>&1 &
 
 echo "kill $! # nginx" >> cancel.sh
