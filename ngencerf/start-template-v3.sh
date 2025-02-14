@@ -68,10 +68,10 @@ server {
  client_max_body_size 0;  # Remove upload size limit by setting to 0
 
  # Timeout settings
- proxy_connect_timeout 3600s;   # Time to establish connection with backend
- proxy_send_timeout 3600s;      # Time to send request to backend
- proxy_read_timeout 86400s;     # Time to wait for a response from the backend (increased to 1 day)
- send_timeout 3600s;            # Time to wait for the client to receive the response
+ proxy_connect_timeout 30s;   # Time to establish connection with backend
+ proxy_send_timeout 30s;      # Time to send request to backend
+ proxy_read_timeout 30s;     # Time to wait for a response from the backend (increased to 1 day)
+ send_timeout 30s;            # Time to wait for the client to receive the response
 
  # Buffers for large responses
  proxy_buffers 16 16k;
