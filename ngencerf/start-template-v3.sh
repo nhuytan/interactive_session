@@ -68,17 +68,25 @@ server {
  client_max_body_size 0;  # Remove upload size limit by setting to 0
 
  # Timeout settings
- proxy_connect_timeout 30s;   # Time to establish connection with backend
- proxy_send_timeout 30s;      # Time to send request to backend
- proxy_read_timeout 30s;     # Time to wait for a response from the backend (increased to 1 day)
- send_timeout 30s;            # Time to wait for the client to receive the response
+ proxy_connect_timeout 1130s;   # Time to establish connection with backend
+ proxy_send_timeout 1130s;      # Time to send request to backend
+ proxy_read_timeout 1130s;     # Time to wait for a response from the backend (increased to 1 day)
+ send_timeout 1130s;            # Time to wait for the client to receive the response
 
  # Buffers for large responses
  proxy_buffers 16 16k;
  proxy_buffer_size 32k;
 
  # Keep-alive settings
- keepalive_timeout 65;          # Timeout for keeping the connection open with the backend
+ keepalive_timeout 165;          # Timeout for keeping the connection open with the backend
+
+  # Dummy heartbeat location
+  location /heartbeat {
+      # Send a response every 30 seconds to keep the connection alive
+      add_header Content-Type text/plain;
+      return 200 'Keep-Alive\n';  # Simple heartbeat response
+  }
+
 
  location / {
      proxy_pass http://127.0.0.1:${ngencerf_port}${basepath}/;
