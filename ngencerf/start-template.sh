@@ -60,7 +60,7 @@ server {
  proxy_buffer_size 32k;
 
  # Keep-alive settings
- keepalive_timeout 65;          # Timeout for keeping the connection open with the backend
+ keepalive_timeout 165;          # Timeout for keeping the connection open with the backend
 
  location / {
      proxy_pass http://127.0.0.1:${service_existing_port}/me/${openPort}/;
