@@ -62,6 +62,13 @@ server {
  # Keep-alive settings
  keepalive_timeout 165;          # Timeout for keeping the connection open with the backend
 
+  # Dummy heartbeat location
+  location /heartbeat {
+      # Send a response every 30 seconds to keep the connection alive
+      add_header Content-Type text/plain;
+      return 200 'Keep-Alive\n';  # Simple heartbeat response
+  }
+
  location / {
      proxy_pass http://127.0.0.1:${service_existing_port}/me/${openPort}/;
      proxy_http_version 1.1;
