@@ -56,6 +56,8 @@ HERE
 # START SERVICE
 echo ${service_exec} --bind-addr=${HOSTNAME}:${service_port} ${gh_flag} ${password_flag} ${service_directory}
 
+sleep 120
+
 ${service_exec} \
     --bind-addr=${HOSTNAME}:${service_port} \
     ${gh_flag} \
