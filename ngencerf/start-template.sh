@@ -31,21 +31,6 @@ chmod 600 ${HOME}/.ssh/authorized_keys ${HOME}/.ssh/pw_id_rsa ${HOME}/.ssh/pw_id
 
 
 
-if ! [ -f "${service_nginx_sif}" ]; then
-   displayErrorMessage "NGINX proxy singularity container was not found ${service_nginx_sif}"
-fi
-
-if ! [ -f "${NGEN_CAL_SINGULARITY_CONTAINER_PATH}" ]; then
-   displayErrorMessage "NGEN-CAL singularity container was not found ${NGEN_CAL_SINGULARITY_CONTAINER_PATH}"
-fi
-
-if ! [ -f "${NGEN_FORCING_SINGULARITY_CONTAINER_PATH}" ]; then
-   displayErrorMessage "NGEN-FORCING singularity container was not found ${NGEN_FORCING_SINGULARITY_CONTAINER_PATH}"
-fi
-
-if ! [ -f "${NGEN_FCST_SINGULARITY_CONTAINER_PATH}" ]; then
-   displayErrorMessage "NGEN-FCST singularity container was not found ${NGEN_FCST_SINGULARITY_CONTAINER_PATH}"
-fi
 
 #################
 # NGINX WRAPPER #
