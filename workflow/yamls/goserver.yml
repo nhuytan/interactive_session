@@ -32,7 +32,7 @@ jobs:
 
               http.HandleFunc("/", hello)
               http.HandleFunc("/headers", headers)
-              fmt.Println("running on port ${{ inputs.resource.ip }}")
+              fmt.Println("running on port ${{ inputs.port }}")
               http.ListenAndServe(":${{ inputs.port }}", nil)
           }
           EOF
