@@ -32,8 +32,8 @@ jobs:
 
               http.HandleFunc("/", hello)
               http.HandleFunc("/headers", headers)
-              fmt.Println("running on port 3001")
-              http.ListenAndServe(":3001", nil)
+              fmt.Println("running on port ${{ inputs.resource.ip }}")
+              http.ListenAndServe(":${{ inputs.port }}", nil)
           }
           EOF
       - name: run goserver
@@ -51,3 +51,5 @@ jobs:
         include-workspace: false
         default: ${{ app.target }}
         tooltip: Resource to host the service
+      port:
+        type: string
