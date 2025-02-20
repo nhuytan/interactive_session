@@ -39,7 +39,7 @@ jobs:
       - name: Expose Port
         uses: parallelworks/update-session
         with:
-          remotePort:${{ inputs.port }}
+          remotePort: ${{ inputs.port }}
           status: running
           target: ${{ inputs.resource.id }}
           name: ${{ sessions.session }}
