@@ -3,7 +3,7 @@ sessions:
 jobs:
   main:
     steps:
-      - name: copy go file
+      - name: Create server file
         run: |
           set -x
           cat << EOF > goserver.go
@@ -32,10 +32,14 @@ jobs:
 
               http.HandleFunc("/", hello)
               http.HandleFunc("/headers", headers)
-              fmt.Println("running on port ${{ inputs.port }}")
+              fmt.Println("running on port ${{ inputs.resource.ip }}")
               http.ListenAndServe(":${{ inputs.port }}", nil)
           }
           EOF
+      - name: Copy file
+        run: |
+          set -x
+          scp -O goserver.go ${{ inputs.resource.ip }}:/tmp/${{ sessions.session }}-goserver.go
       - name: Expose Port
         uses: parallelworks/update-session
         with:
@@ -45,10 +49,9 @@ jobs:
           name: ${{ sessions.session }}
       - name: run goserver
         run: |
-          ssh ${{ inputs.resource.ip }} "go run /tmp/goserver.go" &
+          ssh ${{ inputs.resource.ip }} "go run /tmp/${{ sessions.session }}-goserver.go" &
       - name: sleep
         run: sleep 5000
-      
 'on':
   execute:
     inputs:
