@@ -36,6 +36,13 @@ jobs:
               http.ListenAndServe(":${{ inputs.port }}", nil)
           }
           EOF
+      - name: Expose Port
+        uses: parallelworks/update-session
+        with:
+          remotePort:${{ inputs.port }}
+          status: running
+          target: ${{ inputs.resource.id }}
+          name: ${{ sessions.session }}
       - name: run goserver
         run: |
           ssh ${{ inputs.resource.ip }} "go run /tmp/goserver.go" &
