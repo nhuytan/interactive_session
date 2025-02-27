@@ -23,6 +23,6 @@ cat >> ${resource_jobdir}/service-kill-${job_number}-main.sh <<HERE
 sudo tailscale down
 HERE
 
-sudo tailscale up | tee tailscale.up.log
+sudo tailscale up 2>&1 | tee tailscale.up.log
 
 tailscale ip
