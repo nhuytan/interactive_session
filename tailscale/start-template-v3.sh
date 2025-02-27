@@ -27,3 +27,5 @@ HERE
 sudo tailscale up 2>&1 | tee tailscale.up.log
 
 tailscale ip
+
+sleep inf
