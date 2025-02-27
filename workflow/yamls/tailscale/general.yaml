@@ -72,7 +72,14 @@ jobs:
           sshcmd: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${{ inputs.pwrl_host.resource.ip }}
         run: |
           source resources/host/inputs.sh
-          URL=$(${sshcmd} cat  ${resource_jobdir}/tailscale.up.log | grep -o 'https://login.tailscale.com/a/[a-zA-Z0-9]*')
+          while true; do
+            URL=$(${sshcmd} cat  ${resource_jobdir}/tailscale.up.log | grep -o 'https://login.tailscale.com/a/[a-zA-Z0-9]*')
+            if [ -n "$URL" ]; then
+              echo "URL found: $URL"
+              break
+            fi
+            sleep 10
+          done
           echo "URL=${URL}"  | tee -a $OUTPUTS
       - uses: parallelworks/update-session
         name: Start PW Session

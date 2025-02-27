@@ -1,7 +1,11 @@
 # Runs via ssh + sbatch
 set -x
 
-curl -fsSL https://tailscale.com/install.sh | sh
+if ! which tailscale &> /dev/null; then
+    curl -fsSL https://tailscale.com/install.sh | sh
+else
+    echo "Tailscale is already installed."
+fi
 
 # Prepare kill service script
 # - Needs to be here because we need the hostname of the compute node.
