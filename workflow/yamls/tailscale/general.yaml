@@ -75,7 +75,6 @@ jobs:
           while true; do
             URL=$(${sshcmd} cat  ${resource_jobdir}/tailscale.up.log | grep -o 'https://login.tailscale.com/a/[a-zA-Z0-9]*')
             if [ -n "$URL" ]; then
-              echo "URL found: $URL"
               break
             fi
             sleep 10
