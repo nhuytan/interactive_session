@@ -86,7 +86,7 @@ jobs:
         with:
           name: ${{ sessions.tailscale }}
           type: link
-          url: "${{ needs.main.outputs.URL }}"
+          url: "${{ needs.create_session.outputs.URL }}"
 
 'on':
   execute:
