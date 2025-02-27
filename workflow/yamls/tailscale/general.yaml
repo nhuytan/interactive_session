@@ -153,7 +153,8 @@ jobs:
         collapsed: false
       service:
         type: group
-        label: VS Code Settings
+        label: Service
+        hidden: true
         items:
           name: 
             type: string
