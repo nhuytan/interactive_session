@@ -3,6 +3,8 @@ permissions:
 sessions:
     tailscale: 
       type: link
+      redirect: true
+
 
 jobs:
   preprocessing:
