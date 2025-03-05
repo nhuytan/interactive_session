@@ -261,7 +261,7 @@ fi
 cd ${service_novnc_install_dir}
 
 echo "Running ./utils/novnc_proxy --vnc ${HOSTNAME}:${displayPort} --listen ${HOSTNAME}:${service_port}"
-password_file=${PWD}/.${RANDOM}
+password_file=${resource_jobdir}/.${RANDOM}
 echo ${USER}:password > ${password_file}
 #./utils/novnc_proxy --vnc localhost:${displayPort} --listen localhost:${service_port} </dev/null &>/dev/null &
 ./utils/novnc_proxy --vnc ${HOSTNAME}:${displayPort} --listen ${HOSTNAME}:${service_port} --web-auth --auth-plugin password --auth-source ${password_file} </dev/null &
