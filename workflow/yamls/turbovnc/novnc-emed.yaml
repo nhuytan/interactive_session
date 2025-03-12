@@ -168,6 +168,8 @@ jobs:
             label: Service host
             include-workspace: false
             tooltip: Resource to host the service
+            hidden: true
+            default: einsteindefault
           nports:
             type: number
             label: Number of Ports to Reserve
