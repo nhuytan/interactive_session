@@ -6,6 +6,9 @@ sessions:
     redirect: true
 
 
+app:
+  target: inputs.pwrl_host.resource
+
 jobs:
   preprocessing:
     steps:
@@ -166,7 +169,6 @@ jobs:
             type: compute-clusters
             label: Service host
             include-workspace: false
-            default: ${{ app.target }} 
             tooltip: Resource to host the service
           nports:
             type: number
