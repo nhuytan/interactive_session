@@ -1,0 +1,10 @@
+jobs:
+  main:
+    steps:
+      - name: echo
+        run: echo "hello world
+'on':
+  execute:
+    inputs:
+      abc:
+        type: string
