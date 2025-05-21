@@ -157,6 +157,7 @@ jobs:
             label: Service host
             include-workspace: false
             tooltip: Resource to host the service
+            autoselect: true
           nports:
             type: number
             label: Number of Ports to Reserve
