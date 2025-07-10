@@ -91,6 +91,18 @@ if [ "${service_set_password}" != true ]; then
 fi
 expect -c 'spawn vncpasswd -u '"${USER}"' -w -r; expect "Password:"; send "'"${service_password}"'\r"; expect "Verify:"; send "'"${service_password}"'\r"; expect eof'
 
+# Check for NVIDIA GPU
+if command -v nvidia-smi >/dev/null 2>&1; then
+    if nvidia-smi >/dev/null 2>&1; then
+        echo "NVIDIA GPU detected via nvidia-smi"
+        gpu_flag="-hw3d"
+    else
+        echo "NVIDIA GPU check failed"
+    fi
+else
+    echo "No NVIDIA GPU detected or nvidia-smi not installed"
+fi
+
 
 vncserver -kill ${DISPLAY}
 echo "vncserver -kill ${DISPLAY}" >> cancel.sh.sh
@@ -99,7 +111,7 @@ MAX_RETRIES=5
 RETRY_DELAY=5
 RETRY_COUNT=0
 
-vncserver_cmd="vncserver ${DISPLAY} ${disableBasicAuth} -select-de gnome -websocketPort ${kasmvnc_port} -rfbport ${displayPort}"
+vncserver_cmd="vncserver ${DISPLAY} ${gpu_flag} ${disableBasicAuth} -select-de gnome -websocketPort ${kasmvnc_port} -rfbport ${displayPort}"
 echo Running:
 echo ${vncserver_cmd}
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
